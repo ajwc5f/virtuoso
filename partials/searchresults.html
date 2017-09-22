@@ -1,0 +1,19 @@
+<h2>Showing results for {{query}}</h2>
+
+<hr/>
+<br/>
+
+<ul class="artists" ng-show="artists.length > 0">
+	<h4>ARTISTS</h4>
+  <li class="searchresult" ng-repeat="a in artists">
+    <a href="#/artists/{{a.oa_artist_id}}">
+      <responsive-cover ng-model="a.images" class="responsive-cover-artist"></responsiveartist-cover>
+    </a>
+    <p>
+      <a href="#/artists/{{a.oa_artist_id}}">{{a.name}}</a>
+    </p>
+  </li>
+  <hr/>
+</ul>
+
+<br/>

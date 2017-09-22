@@ -1,0 +1,300 @@
+<div id="page-wrapper">
+	<!-- Main -->
+	<div id="main-wrapper">
+		<div class="container">
+
+      <div id="artistcover">
+        <div id="coverimage">
+          <responsive-cover ng-model="data.artist_images" ></responsive-cover>
+        </div>
+        <div id="artistcovercontentbg" class="effect7">
+          <div id="artistcovercontent">
+            <div id="artistinfo">
+              <responsive-logo ng-model="data.artist_images" ></responsive-logo>
+              <p>{{artistName}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!--All Page Content-->
+			<div class="row 0%">
+        <!--Left Page Content-->
+        <div class="8u 12u(mobile) important(mobile)">
+          <!--Navbar-->
+          <nav id="nav">
+						<ul>
+              <li class="active"><a class="home" ng-click="template='home'"><i class="fa fa-home" aria-hidden="true"></i> Home</a></li>
+              <li><a class="sc" ng-click="template='sc'"><i class="fa fa-soundcloud" aria-hidden="true"></i> SoundCloud</a></li>
+              <li><a class="spot" ng-click="template='spot'"><i class="fa fa-spotify" aria-hidden="true"></i> Spotify</a></li>
+              <li><a class="yt" ng-click="template='yt'"><i class="fa fa-youtube" aria-hidden="true"></i> YouTube</a></li>
+              <li><a class="twit" ng-click="template='twit'"><i class="fa fa-twitter" aria-hidden="true"></i> Twitter</a></li>
+              <li><a class="fb" ng-click="template='fb'"><i class="fa fa-facebook" aria-hidden="true"></i> Facebook</a></li>
+            </ul>
+					</nav>
+          <article class="box post left">
+            <div ng-init="template='home'">
+              <div ng-include="template"></div>
+            </div>
+          </article>
+        </div>
+        <!--Right Page Content-->
+				<div class="4u 12u(mobile)">
+          <section class="box right">
+            <header>
+              <h3>Fact Card</h3>
+            </header>
+            <table>
+              <tr>
+                <th>Full Name:</th>
+                <td>{{birthname}}</td>
+              </tr>
+              <tr>
+                <th>Birthplace:</th>
+                <td>{{birthplace}}</td>
+              </tr>
+              <tr>
+                <th>Birthdate:</th>
+                <td>{{birthdate}}</td>
+              </tr>
+              <tr>
+                <th>Years Active:</th>
+                <td>{{yearfrom}} - {{yearto}}</td>
+              </tr>
+              <tr class="last">
+                <th>Website:</th>
+                <td><a ng-href="{{website}}">{{website}}</a></td>
+              </tr>
+            </table>
+					</section>
+
+          <section class="box right">
+						<header>
+							<h3>Recommended Artists</h3>
+						</header>
+						<p>Veroeros sed amet blandit consequat veroeros lorem blandit adipiscing et feugiat sed lorem consequat feugiat lorem dolore.</p>
+						<ul class="divided">
+							<li><a href="#">Sed et blandit consequat sed</a></li>
+							<li><a href="#">Hendrerit tortor vitae sapien dolore</a></li>
+							<li><a href="#">Sapien id suscipit magna sed felis</a></li>
+							<li><a href="#">Aptent taciti sociosqu ad litora</a></li>
+						</ul>
+					</section>
+        </div>
+
+        <!--Templates-->
+
+        <!--Home Template-->
+        <script type="text/ng-template" id="home">
+          <header>
+            <h3>About the Artist</h3>
+          </header>
+          <p ng-if="data.bio">{{data.bio.media[0].data.text}}</p>
+          <p ng-if="!data.bio">This arist currently has no bio.</p>
+          <section>
+            <header>
+              <h3>Images</h3>
+            </header>
+            <div class="row uniform 25%" ng-show="artistImages.length > 0">
+              <div class="images 42u 3u(medium) 4u(small) 6u(xxsmall)" ng-repeat="image in artistImages">
+								<img class="artist-images" ng-src="{{image}}" />
+              </div>
+            </div>
+            <div ng-if="artistImages.length == 0">
+              <p>This artist currently has no images.</p>
+            </div>
+          </section>
+        </script>
+
+        <!--SoundCloud Template-->
+        <script type="text/ng-template" id="sc">
+          <div ng-show="scId != null">
+            <header>
+              <div class="centered-header-content">
+                <a ng-href="{{scUrl}}"><h2 class="header-name sc-name">{{scUsername}}</h2></a>
+                <br/>
+                <h3 class="sub-header">SoundCloud Followers: {{scFollowers}}</h3>
+              </div>
+            </header>
+            <iframe id="sc-widget" ng-src="{{scUserWidgetUrl}}" width="100%" height="465" scrolling="no" frameborder="no"></iframe>
+          </div>
+          <div ng-show="scId == null">
+            <header>
+              <div class="centered-header-content">
+                <h2 class="header-name sc-name">OH NO!</h2>
+                <br/>
+                <h3 class="sub-header">Sorry, this artist either does not have a soundcloud account or it has not been added yet.</h3>
+              </div>
+            </header>
+          </div>
+        </script>
+
+        <!--Spotify Template-->
+        <script type="text/ng-template" id="spot">
+          <div ng-show="spotId != null">
+            <header>
+              <div class="centered-header-content">
+                <a ng-href="{{spotUrl}}"><h2 class="header-name spot-name">{{spotUsername}}</h2></a>
+                <br/>
+                <h3 class="sub-header">Spotify Followers: {{spotFollowers}}</h3>
+              </div>
+            </header>
+          <!--<table class="tracks">
+            <thead>
+              <th>#</th>
+              <th></th>
+              <th>SONG</th>
+              <th>ALBUM</th>
+              <th>TIME</th>
+            </thead>
+            <tbody>
+              <tr ng-repeat="t in spotTopTracks" ng-class="{ playing: (t.uri == currenttrack) }">
+                <td>{{$index + 1}}</td>
+                <td>
+                  <button ng-click="toggleFromYourMusic($index)"> {{ t.inYourMusic ? '-' : '+' }} </button>
+                </td>
+                <td><a ng-click="playtoptrack(t.uri)">{{t.name}}</a></td>
+                <td>{{t.album.name}}</td>
+                <td>{{t.duration_ms | displaytime}}</td>
+              </tr>
+            </tbody>
+          </table>-->
+            <div ng-show="albumUrls.length > 0">
+              <h3>Albums</h3>
+              <div ng-repeat="url in albumUrls">
+                <iframe ng-src="{{url}}" frameborder="0" allowtransparency="true" width="100%" height="50%"  style="width:100%; height:280px;"></iframe>
+              </div>
+              <br/>
+            </div>
+            <div ng-show="singleUrls.length > 0">
+              <h3>Singles</h3>
+              <div ng-repeat="url in singleUrls">
+                <iframe ng-src="{{url}}" frameborder="0" allowtransparency="true" width="100%" height="50%"  style="width:100%; height:80px; margin:5px;"></iframe>
+              </div>
+              <br/>
+            </div>
+            <div ng-show="appearsonUrls.length > 0">
+              <h3>Appears on</h3>
+              <div ng-repeat="url in appearsonUrls">
+                <iframe ng-src="{{url}}" frameborder="0" allowtransparency="true" width="100%" height="50%"  style="width:100%; height:280px;"></iframe>
+              </div>
+              <br/>
+            </div>
+          </div>
+          <div ng-show="spotId == null">
+            <header>
+              <div class="centered-header-content">
+                <h2 class="header-name spot-name">OH NO!</h2>
+                <br/>
+                <h3 class="sub-header">Sorry, this artist either does not have a Spotify account or it has not been added yet.</h3>
+              </div>
+            </header>
+          </div>
+
+        </script>
+
+        <!--YouTube Template-->
+        <script type="text/ng-template" id="yt">
+          <div ng-show="ytUrl != null">
+            <header>
+              <div class="centered-header-content">
+                <a ng-href="{{ytUrl}}"><h2 class="header-name yt-name">{{ytUsername}}</h2></a>
+                <br/>
+                <h3 class="sub-header">YouTube Subscribers: {{ytSubscribers}}</h3>
+              </div>
+            </header>
+            <div class="youtube-videos" ng-repeat="video in ytVideos">
+              <h3 class="youtube-title">{{video.title}}</h3>
+              <div class="youtube-iframe" ng-bind-html="renderHtml(video.iframe)"></div>
+            </div>
+          </div>
+          <div ng-show="ytUrl == null">
+            <header>
+              <div class="centered-header-content">
+                <h2 class="header-name yt-name">OH NO!</h2>
+                <br/>
+                <h3 class="sub-header">Sorry, this artist either does not have a YouTube account or it has not been added yet.</h3>
+              </div>
+            </header>
+          </div>
+        </script>
+
+        <!--Twitter Template-->
+        <script type="text/ng-template" id="twit">
+          <div ng-show="twitterUrl == null">
+            <header>
+              <div class="centered-header-content">
+                <h2 class="header-name twit-name">OH NO!</h2>
+                <br/>
+                <h3 class="sub-header">Sorry, this artist either does not have a Twitter account or it has not been added yet.</h3>
+              </div>
+            </header>
+          </div>
+          <div ng-show="twitterUrl != null">
+            <header>
+              <div class="centered-header-content">
+                <a ng-href="{{twitterUrl}}"><h2 class="header-name twit-name">@{{twitterUsername}}</h2></a>
+                <br/>
+                <!--<h3 class="sub-header">Twitter Followers: {{twitterFollowers}}</h3>-->
+              </div>
+            </header>
+            <a class="twitter-timeline" data-lang="en" data-theme="light" data-link-color="#ff4c4c" data-border-color="#ff4c4c" data-chrome ="noheader nofooter transparent" data-show-replies="true" ng-href="{{twitterUrl}}"></a>
+            <script async src="//platform.twitter.com/widgets.js " charset="utf-8">
+              var scriptEnd = "<\scr" + "ipt>";
+              document.write(scriptEnd);
+          </div>
+        </script>
+
+        <!--Facebook Template-->
+        <script type="text/ng-template" id="fb">
+          <div ng-show="fbUrl != null">
+            <header class="left-content-header">
+              <div class="centered-header-content">
+                <a ng-href="{{fbUrl}}"><h2 class="header-name fb-name">@{{fbUsername}}</h2></a>
+                <br/>
+                <h3 class="sub-header">Facebook Fans: {{fbFanCount}}</h3>
+              </div>
+            </header>
+            <div id="fbpostsection">
+              <div class="fbpost" ng-repeat="post in fbPosts">
+                <div class="postheader">
+                  <a ng-href="{{fbUrl}}"><img class="fbpic" ng-src="{{fbPicUrl}}" /></a>
+                  <a ng-href="{{fbUrl}}" class="postheader-username"><p>{{fbUsername}}</p></a>
+                  <p class="postheader-date">{{post.date}}</p>
+                </div>
+                <div class="postcontent">
+                  <p class="fbmessage">{{post.message}}</p>
+                  <div ng-if="post.attachmentType == 'photo' || post.attachmentType == 'video_autoplay'">
+                    <div class="attachment">
+                      <a ng-href="{{post.attachmentUrl}}"><img ng-src="{{post.attachmentSrc}}" /></a>
+                    </div>
+                  </div>
+                  <div ng-if="post.attachmentType == 'share' || post.attachmentType == 'video_share_youtube'">
+                    <div class="attachment shared">
+                      <a class="shared-attachment-img" ng-href="{{post.attachmentUrl}}"><h3 class="shared-attachment-title">{{post.attachmentTitle}}</h3></a>
+                      <a class="shared-attachment-img" ng-href="{{post.attachmentUrl}}"><img ng-src="{{post.attachmentSrc}}" /></a>
+                    </div>
+                  </div>
+                </div>
+                <div class="postextras">
+                  <p class="likes"><i class="fa fa-thumbs-up fa-lg" aria-hidden="true"></i>  {{post.likes}}</p>
+                  <p class="comments"><i class="fa fa-comments fa-lg" aria-hidden="true"></i>  {{post.comments}}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div ng-show="fbUrl == null">
+            <header>
+              <div class="centered-header-content">
+                <h2 class="header-name fb-name">OH NO!</h2>
+                <br/>
+                <h3 class="sub-header">Sorry, this artist either does not have a Facebook account or it has not been added yet.</h3>
+              </div>
+            </header>
+          </div>
+        </script>
+
+			</div>
+		</div>
+	</div>
+</div>
